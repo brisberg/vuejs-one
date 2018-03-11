@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <p>{{ response }}</p>
     <h2>Essential Links</h2>
     <ul>
       <li>
@@ -84,12 +85,34 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'HelloWorld',
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
+      response: {},
     };
+  },
+
+  mounted() {
+    this.fetchAPIRoot();
+  },
+
+  methods: {
+    fetchAPIRoot() {
+      axios.get('/api/?format=json')
+        .then((res) => {
+          // eslint-disable-next-line no-console
+          console.log(res);
+          this.response = res.data;
+        })
+        .catch((err) => {
+          // eslint-disable-next-line no-console
+          console.log(err);
+        });
+    },
   },
 };
 </script>
